@@ -17,8 +17,14 @@
 
 package edu.uci.ics.crawler4j.crawler;
 
-import edu.uci.ics.crawler4j.fetcher.PageFetchResult;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpStatus;
+import org.apache.log4j.Logger;
+
 import edu.uci.ics.crawler4j.fetcher.CustomFetchStatus;
+import edu.uci.ics.crawler4j.fetcher.PageFetchResult;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.frontier.DocIDServer;
 import edu.uci.ics.crawler4j.frontier.Frontier;
@@ -27,12 +33,6 @@ import edu.uci.ics.crawler4j.parser.ParseData;
 import edu.uci.ics.crawler4j.parser.Parser;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 import edu.uci.ics.crawler4j.url.WebURL;
-
-import org.apache.http.HttpStatus;
-import org.apache.log4j.Logger;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * WebCrawler class in the Runnable class that is executed by each crawler
@@ -99,6 +99,11 @@ public class WebCrawler implements Runnable {
 	 */
 	private boolean isWaitingForNewURLs;
 
+	/**
+	 * The regular expression for deciding which page should be visited
+	 */
+	private String shouldVisitRegex;
+	
 	/**
 	 * Initializes the current instance of the crawler
 	 * 
@@ -373,5 +378,13 @@ public class WebCrawler implements Runnable {
 	public boolean isNotWaitingForNewURLs() {
 		return !isWaitingForNewURLs;
 	}
+
+  public String getShouldVisitRegex() {
+    return shouldVisitRegex;
+  }
+
+  public void setShouldVisitRegex(String toVisitRegex) {
+    this.shouldVisitRegex = toVisitRegex;
+  }
 
 }

@@ -67,6 +67,11 @@ public class CrawlController extends Configurable {
 	 */
 	protected boolean shuttingDown;
 
+  /**
+   * The regular expression for deciding which page should be visited
+   */
+  private String shouldVisitRegex;
+
 	protected PageFetcher pageFetcher;
 	protected RobotstxtServer robotstxtServer;
 	protected Frontier frontier;
@@ -152,6 +157,7 @@ public class CrawlController extends Configurable {
 				T crawler = _c.newInstance();
 				Thread thread = new Thread(crawler, "Crawler " + i);
 				crawler.setThread(thread);
+        crawler.setShouldVisitRegex(shouldVisitRegex);
 				crawler.init(i, this);
 				thread.start();
 				crawlers.add(crawler);
@@ -445,4 +451,13 @@ public class CrawlController extends Configurable {
 		this.shuttingDown = true;
 		frontier.finish();
 	}
+
+  public String getShouldVisitRegex() {
+    return shouldVisitRegex;
+  }
+
+  public void setShouldVisitRegex(String toVisitRegex) {
+    this.shouldVisitRegex = toVisitRegex;
+  }
+
 }
